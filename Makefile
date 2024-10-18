@@ -1,17 +1,21 @@
 C_COMPILE = gcc
 CLAGS = -Wall -g
-TARGET = main
+TARGET = Build/main
+OBJ_DIR = Build
+
+C_SOURCE = main.c shape.c
+OBJ_SOURCE = $(C_SOURCE:%.c=$(OBJ_DIR)/%.o)
 
 all: $(TARGET)
 
-$(TARGET): main.o shape.o
-	$(C_COMPILE) $(CLAGS) main.o shape.o -o main
+$(TARGET): $(OBJ_SOURCE)
+	$(C_COMPILE) $(CLAGS) $^ -o $@
 
-main.o: main.c
-	$(C_COMPILE) $(CLAGS) -c main.c -o main.o
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	$(C_COMPILE) $(CLAGS) -c $< -o $@
 
-shape.o: shape.c
-	$(C_COMPILE) $(CLAGS) -c shape.c -o shape.o
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 clean:
-	rm -f main.o shape.o main
+	rm -rf Build
