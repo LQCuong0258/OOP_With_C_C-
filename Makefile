@@ -5,13 +5,13 @@ TARGET = $(BUILD_DIR)/main
 
 C_SOURCES = \
 main.c \
-$(wildcard Driver/Src/*.c) \
+$(wildcard Object/Src/*.c) \
 
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
 
 C_INCLUDES = \
--IDriver/Inc \
+-IObject/Inc \
 
 all: $(TARGET)
 
