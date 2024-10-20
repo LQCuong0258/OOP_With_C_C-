@@ -10,7 +10,8 @@ $(wildcard Driver/src/*.c) \
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
 
-C_INCLUDES = -IDriver/lib
+C_INCLUDES = \
+-IDriver/lib \
 
 all: $(TARGET)
 
