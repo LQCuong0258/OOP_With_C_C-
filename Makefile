@@ -1,21 +1,27 @@
-C_COMPILE = gcc
-CLAGS = -Wall -g
-TARGET = Build/main
-OBJ_DIR = Build
+CC = gcc
+CFLAGS = -Wall -g
+BUILD_DIR = Build
+TARGET = $(BUILD_DIR)/main
 
-C_SOURCE = main.c shape.c
-OBJ_SOURCE = $(C_SOURCE:%.c=$(OBJ_DIR)/%.o)
+C_SOURCES = \
+main.c \
+$(wildcard Driver/src/*.c) \
+
+OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
+vpath %.c $(sort $(dir $(C_SOURCES)))
+
+C_INCLUDES = -IDriver/lib
 
 all: $(TARGET)
 
-$(TARGET): $(OBJ_SOURCE)
-	$(C_COMPILE) $(CLAGS) $^ -o $@
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) $^ -o $@
 
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
-	$(C_COMPILE) $(CLAGS) -c $< -o $@
+$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+	$(CC) $(C_INCLUDES) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+$(BUILD_DIR):
+	mkdir -p $@
 
 clean:
-	rm -rf Build
+	-rm -fR Build

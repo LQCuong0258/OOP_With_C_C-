@@ -5,7 +5,7 @@ int main()
     Shape shape;
     Rectangle rectangle;
 
-    Shape_Init(&shape, 10, 20);
+    Shape_Init(&shape, 15, 22);
     Shape_Print(&shape);
 
     Rectangle_Init(&rectangle, 10, 20, 5., 10.);
