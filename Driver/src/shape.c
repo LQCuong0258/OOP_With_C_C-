@@ -1,26 +1,33 @@
-#include "shape.h"
+#include "Shape.h"
 
-void Shape_Init (Shape * const shape, int16_t x, int16_t y)
+static float Shape_area (Shape const * const self);
+
+void Shape_Init (Shape * const self, int16_t x, int16_t y)
 {
-    shape->x = x;
-    shape->y = y;
+    static const struct ShapeVtable vtable = {
+        &Shape_area
+    };
+    
+    self->vptr = &vtable;
+    self->x = x;
+    self->y = y;
 }
 
-void Shape_Print (Shape * const shape)
+void Shape_Print (Shape * const self)
 {
-    printf("Center of shape: (%d; %d)\r\n", shape->x, shape->y);
+    printf("Center of shape: (%d; %d)\r\n", self->x, self->y);
 }
 
-void Rectangle_Init (Rectangle * const self,
-                     int16_t x0, int16_t y0,
-                     float w, float h)
+static float Shape_area (Shape const * const self)
 {
-    Shape_Init(&self->super, x0, y0); /* Initialize Shape */
-    self->width = w;
-    self->height = h;
+    (void) self; /* Unused parameter */
+    return 0U;
 }
 
-float Rectangle_Area (Rectangle const * const self)
+void Calc_area (Shape const * graph[])
 {
-    return self->width * self->height;
+    for (uint8_t i = 0; graph[i] != (Shape *) 0 ; i++)
+    {
+        printf("Area of shape: %0.2f\r\n", Shape_area_vcall(graph[i]));
+    }
 }
