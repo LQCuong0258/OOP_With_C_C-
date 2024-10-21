@@ -6,13 +6,15 @@
 typedef struct {
     Shape super; /* Inherited Shape */
 
-    float width;
-    float height;
+    float Width;
+    float Height;
 } Rectangle;
 
 void Rectangle_Init (Rectangle * const object,
-                     int16_t x0, int16_t y0,
+                     int16_t x, int16_t y,
+                     char* name,
                      float width, float height);
-float Rectangle_area (Rectangle const * const object);
+float Rectangle_area (Rectangle const * const self);
+float Rectangle_perimeter (Rectangle const * const self);
 
 #endif // RECTANGLE_H
